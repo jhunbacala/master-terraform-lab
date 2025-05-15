@@ -7,6 +7,12 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
 
+locals {
+  team        = "api_mgmt_dev"
+  application = "corp_api"
+  server_name = "ec2-${var.environment}-api-${var.variables_sub_az}"
+}
+
 # Terraform Data Block - Lookup Ubuntu 20.04
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -139,7 +145,9 @@ resource "aws_instance" "web_server" {                            # BLOCK
   instance_type = "t3.micro"                                      # Argument
   subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id # Argument with value as expression
   tags = {
-    Name = "Web EC2 Server"
+    Name  = local.server_name
+    Owner = local.team
+    App   = local.application
   }
 }
 
