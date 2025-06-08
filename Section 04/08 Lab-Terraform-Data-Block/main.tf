@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"  # Use a constraint like ~> 5.0 to specify a major version
+    }
+  }
+}
 # Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"
